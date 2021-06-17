@@ -71,10 +71,10 @@ class _HomeState extends State<Home> {
     double width = MediaQuery.of(context).size.width;
     double height = MediaQuery.of(context).size.height;
     // FlutterStatusbarcolor.setStatusBarWhiteForeground(true);
-    final controller = PageController(initialPage: 0);
+    // final controller = PageController(initialPage: 0);
     return Scaffold(
         appBar: AppBar(
-          title: Text('Answer Checker'),
+          title: Text('ANSWER CHECKER'),
           centerTitle: true,
           brightness: Brightness.dark,
           backgroundColor: Colors.brown[900],
@@ -82,160 +82,175 @@ class _HomeState extends State<Home> {
         body: Padding(
           padding: const EdgeInsets.all(8.0),
           // child: SingleChildScrollView(
-          child: Center(
-            child: PageView(
-              controller: controller,
-              children: <Widget>[
-                Column(
-                  mainAxisAlignment: MainAxisAlignment.center,
-                  children: [
-                    Container(
-                      // color: ,
-                      width: 170,
-                      height: 120,
-                      // margin: EdgeInsets.only(top: 20),
-                      child: Image(
-                        image: AssetImage('assets/images/blackboard2.jpg'),
-                        fit: BoxFit.fill,
-                      ),
-                    ),
-                    Flexible(
-                      child: Container(
-                        width: width,
-                        height: height / 2,
-                        child: Stack(
-                          alignment: AlignmentDirectional.topCenter,
-                          children: [
-                            FractionallySizedBox(
-                              widthFactor: 0.8,
-                              heightFactor: 0.95,
-                              child: Container(
-                                // margin: EdgeInsets.fromLTRB(20,10 , 20, 20),
-                                padding: EdgeInsets.all(20),
-                                decoration: DottedDecoration(
-                                    shape: Shape.box,
-                                    borderRadius: BorderRadius.only(
-                                        topLeft: Radius.circular(10)),
-                                    dash: <int>[2, 5],
-                                    strokeWidth: 2),
-                                child: image == null
-                                    ? Column(
-                                        mainAxisAlignment:
-                                            MainAxisAlignment.center,
-                                        children: [
-                                          Center(
-                                              child: Text(
-                                            "Upload the image here",
-                                            textAlign: TextAlign.center,
-                                            style: TextStyle(
-                                                fontSize: 25,
-                                                color: Colors.grey),
-                                          )),
-                                          IconButton(
-                                            icon: Icon(Icons.upload_file),
-                                            onPressed: () => chooseImage(),
-                                            color: Colors.grey,
-                                            iconSize: 40,
-                                          ),
-                                          // image == null
-                                          //     ? SizedBox(),
-                                        ],
-                                      )
-                                    : Container(
-                                        margin: EdgeInsets.all(3),
-                                        decoration: BoxDecoration(
-                                            image: DecorationImage(
-                                          fit: BoxFit.fill,
-                                          image: FileImage(image),
-                                        )),
+          child: SingleChildScrollView(
+            child: Column(
+              mainAxisAlignment: MainAxisAlignment.center,
+              mainAxisSize: MainAxisSize.min,
+              children: [
+                SizedBox(height: 15,),
+                Container(
+                  // color: ,
+                  width: 170,
+                  height: 120,
+                  // margin: EdgeInsets.only(top: 20),
+                  child: Image(
+                    image: AssetImage('assets/images/blackboard2.jpg'),
+                    fit: BoxFit.fill,
+                  ),
+                ),
+                Flexible(
+                  child: Container(
+                    width: width,
+                    height: 3*height / 7,
+                    child: Stack(
+                      alignment: AlignmentDirectional.topCenter,
+                      children: [
+                        FractionallySizedBox(
+                          widthFactor: 0.8,
+                          heightFactor: 0.95,
+                          child: Container(
+                            // margin: EdgeInsets.fromLTRB(20,10 , 20, 20),
+                            padding: EdgeInsets.all(20),
+                            decoration: DottedDecoration(
+                                shape: Shape.box,
+                                borderRadius: BorderRadius.only(
+                                    topLeft: Radius.circular(10)),
+                                dash: <int>[2, 5],
+                                strokeWidth: 2),
+                            child: image == null
+                                ? Column(
+                                    mainAxisAlignment:
+                                        MainAxisAlignment.center,
+                                    children: [
+                                      Center(
+                                          child: Text(
+                                        "Upload the image here",
+                                        textAlign: TextAlign.center,
+                                        style: TextStyle(
+                                            fontSize: 25,
+                                            color: Colors.grey),
+                                      )),
+                                      IconButton(
+                                        icon: Icon(Icons.upload_file),
+                                        onPressed: () => chooseImage(),
+                                        color: Colors.grey,
+                                        iconSize: 40,
                                       ),
-                                //   ),
-                                // ),
-                              ),
+                                      // image == null
+                                      //     ? SizedBox(),
+                                    ],
+                                  )
+                                : Container(
+                                    margin: EdgeInsets.all(3),
+                                    decoration: BoxDecoration(
+                                        image: DecorationImage(
+                                      fit: BoxFit.fitWidth,
+                                      image: FileImage(image),
+                                    )),
+                                  ),
+                            //   ),
+                            // ),
+                          ),
+                        ),
+                      ],
+                    ),
+                  ),
+                ),
+                // image!= null?ButtonTheme(
+                Padding(
+                  padding: const EdgeInsets.only(left: 30,right: 30),
+                  child: Row(
+                    mainAxisAlignment: MainAxisAlignment.center,
+                    children: [
+                      Icon(Icons.help,color: image==null?Colors.red:Colors.brown),
+                       Flexible(
+                         child: Text(image==null?'Please pick an image.':'It is highly recommended to crop the image to the answer.',
+                            textAlign: TextAlign.center,
+                            // overflow: TextOverflow.ellipsis,
+                            // softWrap: true,
+                            style: TextStyle(
+                            color: image==null?Colors.red:Colors.brown,
+                          ),),
+                       ),
+                    ],
+                  ),
+                ),
+                SizedBox(height: 10,),
+                Row(
+                  mainAxisAlignment: MainAxisAlignment.spaceEvenly,
+                  children: [
+                    ButtonTheme(
+                      minWidth: 50,
+                      height: 50,
+                      child: RaisedButton(
+                        color: Colors.brown[800],
+                        onPressed: ()async{
+                          if(image!=null){
+                            await _cropImage(image);
+                          }
+                        },
+                        child: Row(
+                          children: [
+                            Text(
+                              'Edit image  ',
+                              style: TextStyle(color: Colors.white),
+                            ),
+                            Icon(
+                              Icons.edit,
+                              color: Colors.white,
                             ),
                           ],
                         ),
                       ),
                     ),
-                    // image!= null?ButtonTheme(
-                    Padding(
-                      padding: const EdgeInsets.only(left: 30,right: 30),
-                      child: Row(
-                        mainAxisAlignment: MainAxisAlignment.center,
-                        children: [
-                          Icon(Icons.help,color: image==null?Colors.red:Colors.brown),
-                           Flexible(
-                             child: Text(image==null?'Please pick an image.':'It is highly recommended to crop the image to the answer.',
-                                textAlign: TextAlign.center,
-                                // overflow: TextOverflow.ellipsis,
-                                // softWrap: true,
-                                style: TextStyle(
-                                color: image==null?Colors.red:Colors.brown,
-                              ),),
-                           ),
-                        ],
+                    ButtonTheme(
+                      minWidth: 50,
+                      height: 50,
+                      child: RaisedButton(
+                        color: Colors.brown[800],
+                        onPressed: ()=>chooseImage(),
+                        child: Row(
+                          children: [
+                            Text(
+                              'Pick another  ',
+                              style: TextStyle(color: Colors.white),
+                            ),
+                            Icon(
+                              Icons.add_circle_outlined,
+                              color: Colors.white,
+                            ),
+                          ],
+                        ),
                       ),
                     ),
-                    SizedBox(height: 10,),
-                    Row(
-                      mainAxisAlignment: MainAxisAlignment.spaceEvenly,
+                  ],
+                ),
+                SizedBox(height: 25,),
+                ButtonTheme(
+                  minWidth: 70,
+                  height: 50,
+                  child: RaisedButton(
+                    color: Colors.brown[800],
+                    onPressed: (){},
+                    child: Row(
                       children: [
-                        ButtonTheme(
-                          minWidth: 50,
-                          height: 50,
-                          child: RaisedButton(
-                            color: Colors.brown[800],
-                            onPressed: ()async{
-                              if(image!=null){
-                                await _cropImage(image);
-                              }
-                            },
-                            child: Row(
-                              children: [
-                                Text(
-                                  'Edit image  ',
-                                  style: TextStyle(color: Colors.white),
-                                ),
-                                Icon(
-                                  Icons.edit,
-                                  color: Colors.white,
-                                ),
-                              ],
-                            ),
-                          ),
+                        Text(
+                          'PICK STUDENT ANSWER',
+                          style: TextStyle(color: Colors.white),
                         ),
-                        ButtonTheme(
-                          minWidth: 50,
-                          height: 50,
-                          child: RaisedButton(
-                            color: Colors.brown[800],
-                            onPressed: ()=>chooseImage(),
-                            child: Row(
-                              children: [
-                                Text(
-                                  'Pick another  ',
-                                  style: TextStyle(color: Colors.white),
-                                ),
-                                Icon(
-                                  Icons.add_circle_outlined,
-                                  color: Colors.white,
-                                ),
-                              ],
-                            ),
-                          ),
+                        Icon(
+                          Icons.add_circle_outlined,
+                          color: Colors.white,
                         ),
                       ],
                     ),
-                    // ):SizedBox(),
-                  ],
+                  ),
                 ),
-                Container(
-                  color: Colors.yellow,
-                ),
+                // ):SizedBox(),
               ],
             ),
           ),
-          // ),
-        ));
+          ),
+        );
   }
 }
