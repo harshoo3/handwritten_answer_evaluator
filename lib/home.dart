@@ -46,26 +46,11 @@ class _HomeState extends State<Home> {
                       //       builder: (context) => ,
                       //     ));
                       Navigator.push(context,
-                      //     PageRouteBuilder(
-                      //     transitionDuration: Duration(seconds: 1),
-                      //     transitionsBuilder: (BuildContext context,
-                      //         Animation<double> animation,
-                      //         Animation<double>secAnimation,
-                      //         Widget child){
-                      //       animation = CurvedAnimation(parent: animation, curve:Curves.bounceInOut);
-                      //       return ScaleTransition(scale: animation,
-                      //         alignment: Alignment.centerRight,
-                      //         child: child,);
-                      //     },
-                      //     pageBuilder: (BuildContext context,
-                      //         Animation<double> animation,
-                      //         Animation<double>secAnimation,){
-                      //       return StudentAnswer(teacherAnswer: image,);
-                      //     }
-                      // ));
-                      PageTransition(
-                      type: PageTransitionType.rightToLeft,
-                      child: StudentAnswer(teacherAnswer: image,),
+                      // PageTransition(
+                      // type: PageTransitionType.rightToLeft,
+                      // child
+                       MaterialPageRoute(builder: (context) =>
+                         StudentAnswer(teacherAnswer: image,),
                       ),
                       );
                     },

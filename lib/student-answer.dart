@@ -4,28 +4,36 @@ import 'package:image_picker/image_picker.dart';
 import 'dart:io';
 import 'package:dotted_decoration/dotted_decoration.dart';
 import 'package:image_cropper/image_cropper.dart';
+import 'package:page_transition/page_transition.dart';
 import 'package:handwritten_answer_evaluator/image-page.dart';
+import 'package:handwritten_answer_evaluator/display-images.dart';
 class StudentAnswer extends StatefulWidget {
   File teacherAnswer;
   StudentAnswer({this.teacherAnswer});
   @override
-  _StudentAnswerState createState() => _StudentAnswerState(teacherAnswer:teacherAnswer);
+  _StudentAnswerState createState() => _StudentAnswerState();
 }
 
 class _StudentAnswerState extends State<StudentAnswer> {
-  File teacherAnswer;
-  _StudentAnswerState({this.teacherAnswer});
   File image;
-
+  @override
+  void initState() {
+    // TODO: implement initState
+    if(widget.teacherAnswer==null){
+      print('null');
+    }
+    super.initState();
+  }
   @override
   Widget build(BuildContext context) {
+
     double width = MediaQuery.of(context).size.width;
     double height = MediaQuery.of(context).size.height;
     // FlutterStatusbarcolor.setStatusBarWhiteForeground(true);
     // final controller = PageController(initialPage: 0);
     return Scaffold(
       appBar: AppBar(
-        title: Text('Stuent CHECKER'),
+        title: Text('Student CHECKER'),
         centerTitle: true,
         brightness: Brightness.dark,
         backgroundColor: Colors.brown[900],
@@ -42,16 +50,19 @@ class _StudentAnswerState extends State<StudentAnswer> {
                 height: 50,
                 child: RaisedButton(
                   color: Colors.brown[800],
-                  onPressed: (){
-                    // Navigator.of(context).pushReplacement(
-                    //     MaterialPageRoute(
-                    //       builder: (context) => AnotherPage(logic),
-                    //     ))
+                  onPressed: ()async{
+                    Navigator.push(context,
+
+                      PageTransition(
+                        type: PageTransitionType.rightToLeft,
+                        child: DisplayImages(teacherAnswer: widget.teacherAnswer,studentAnswer:image,),
+                      ),
+                    );
                   },
                   child: Row(
                     children: [
                       Text(
-                        'PICK STUDENT ANSWER',
+                        'EVALUATE',
                         style: TextStyle(color: Colors.white),
                       ),
                       Icon(
