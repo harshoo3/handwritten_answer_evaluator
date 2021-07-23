@@ -9,25 +9,25 @@ class ImagePage extends StatefulWidget {
   double width;
   String blackboardImage;
   File image;
-  ImagePage({this.height,this.width,this.blackboardImage,this.image});
+  Function(File)callback;
+  ImagePage({this.height,this.width,this.blackboardImage,this.image,this.callback});
   // Function cropImage,chooseImage,retrieveLostData;
   @override
-  _ImagePageState createState() => _ImagePageState(height:height,width:width,blackboardImage:blackboardImage,image: image);
+  _ImagePageState createState() => _ImagePageState();
 }
 
 class _ImagePageState extends State<ImagePage> {
-  double height;
-  double width;
-  String blackboardImage;
-  File image;
-  _ImagePageState({this.height,this.width,this.blackboardImage,this.image});
   final picker = ImagePicker();
+  File newImage;
   bool image1Chosen = false;
   chooseImage() async {
     final pickedFile = await picker.getImage(source: ImageSource.gallery);
     setState(() {
       // _image.add(File(pickedFile?.path));
-      image = File(pickedFile?.path);
+      newImage = File(pickedFile?.path);
+    });
+    setState(() {
+      widget.callback(newImage);
     });
     print(pickedFile.path);
     if (pickedFile.path == null)
@@ -52,7 +52,10 @@ class _ImagePageState extends State<ImagePage> {
     );
     if (cropped != null) {
       setState(() {
-        image = cropped;
+        widget.image = cropped;
+      });
+      setState(() {
+        widget.callback(newImage);
       });
     }
   }
@@ -68,7 +71,10 @@ class _ImagePageState extends State<ImagePage> {
     if (response.file != null) {
       setState(() {
         // _image.add(File(response.file.path));
-        image = File(response.file.path);
+        newImage= File(response.file.path);
+      });
+      setState(() {
+        widget.callback(newImage);
       });
     } else {
       print(response.file);
@@ -87,14 +93,14 @@ class _ImagePageState extends State<ImagePage> {
           height: 120,
           // margin: EdgeInsets.only(top: 20),
           child: Image(
-            image: AssetImage(blackboardImage),
+            image: AssetImage(widget.blackboardImage),
             fit: BoxFit.fill,
           ),
         ),
         Flexible(
           child: Container(
-            width: width,
-            height: 3*height / 7,
+            width: widget.width,
+            height: 3*widget.height / 7,
             child: Stack(
               alignment: AlignmentDirectional.topCenter,
               children: [
@@ -110,7 +116,7 @@ class _ImagePageState extends State<ImagePage> {
                             topLeft: Radius.circular(10)),
                         dash: <int>[2, 5],
                         strokeWidth: 2),
-                    child: image == null
+                    child: newImage== null
                         ? Column(
                       mainAxisAlignment:
                       MainAxisAlignment.center,
@@ -138,7 +144,7 @@ class _ImagePageState extends State<ImagePage> {
                       decoration: BoxDecoration(
                           image: DecorationImage(
                             fit: BoxFit.fitWidth,
-                            image: FileImage(image),
+                            image: FileImage(newImage),
                           )),
                     ),
                     //   ),
@@ -155,14 +161,14 @@ class _ImagePageState extends State<ImagePage> {
           child: Row(
             mainAxisAlignment: MainAxisAlignment.center,
             children: [
-              Icon(Icons.help,color: image==null?Colors.red:Colors.brown),
+              Icon(Icons.help,color: newImage==null?Colors.red:Colors.brown),
               Flexible(
-                child: Text(image==null?'Please pick an image.':'It is highly recommended to crop the image to the answer.',
+                child: Text(newImage==null?'Please pick an image.':'It is highly recommended to crop the image to the answer.',
                   textAlign: TextAlign.center,
                   // overflow: TextOverflow.ellipsis,
                   // softWrap: true,
                   style: TextStyle(
-                    color: image==null?Colors.red:Colors.brown,
+                    color: newImage==null?Colors.red:Colors.brown,
                   ),),
               ),
             ],
@@ -178,8 +184,8 @@ class _ImagePageState extends State<ImagePage> {
               child: RaisedButton(
                 color: Colors.brown[800],
                 onPressed: ()async{
-                  if(image!=null){
-                    await cropImage(image);
+                  if(newImage!=null){
+                    await cropImage(newImage);
                   }
                 },
                 child: Row(

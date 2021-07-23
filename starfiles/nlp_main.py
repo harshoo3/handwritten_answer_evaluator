@@ -165,14 +165,16 @@ def match_keywords(student_answer,teacher_answer):
 
   return matched_phrases
 
-def nlp_main(teacher_answer:str, student_answer:str):
-# def main():
-    # student_answer = "Confidentiality: Only the sender and the receiver should be able to understand the contents of the transmitted message. The message may be encrypted due to hackers. This is the most commonly perceived meaning of secure communication. Authentication: Both sender and receiver should be able to confirm the identity of the other party involved in the communication i.e to cofirm that the other party is indeed who or what they claim to be. Message integrity and non-repudiation: Even if the sender and receiver are authenticated, they ensure that the context of their communication is not altered. Message integrity can be ensured by extensions to the checksum techniques that are encountered in reliable transport and data link protocols/ "
-    # teacher_answer = 'Encryption of the message must be done to prevent hacking. Privacy of the senders and receiver parties must be ensured. The integrity of the message must remain and should not be manipulated. Verification of the parties concerned is necessary.'
+#def nlp_main(teacher_answer:str, student_answer:str):
+def main():
+    student_answer = "Confidentiality: Only the sender and the receiver should be able to understand the contents of the transmitted message. The message may be encrypted due to hackers. This is the most commonly perceived meaning of secure communication. Authentication: Both sender and receiver should be able to confirm the identity of the other party involved in the communication i.e to cofirm that the other party is indeed who or what they claim to be. Message integrity and non-repudiation: Even if the sender and receiver are authenticated, they ensure that the context of their communication is not altered. Message integrity can be ensured by extensions to the checksum techniques that are encountered in reliable transport and data link protocols/ "
+    teacher_answer = 'Encryption of the message must be done to prevent hacking. Privacy of the senders and receiver parties must be ensured. The integrity of the message must remain and should not be manipulated. Verification of the parties concerned is necessary.'
     processed_student_answer = text_processing(student_answer)
     processed_teacher_answer = text_processing(teacher_answer)
     print(getSimilarWords(('privacy','NN'), nlp))
     semantic_similarity(processed_student_answer,processed_teacher_answer)
     matched_phrases=match_keywords(Regex(student_answer),Regex(teacher_answer))
     tokenised_answer = word_tokenize(Regex(student_answer))
-    
+
+if __name__=='__main__':
+    main()

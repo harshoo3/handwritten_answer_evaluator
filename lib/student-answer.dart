@@ -16,13 +16,10 @@ class StudentAnswer extends StatefulWidget {
 
 class _StudentAnswerState extends State<StudentAnswer> {
   File image;
-  @override
-  void initState() {
-    // TODO: implement initState
-    if(widget.teacherAnswer==null){
-      print('null');
-    }
-    super.initState();
+  callback(newImage) {
+    setState(() {
+      image = newImage;
+    });
   }
   @override
   Widget build(BuildContext context) {
@@ -44,7 +41,7 @@ class _StudentAnswerState extends State<StudentAnswer> {
         child: SingleChildScrollView(
           child: Column(
             children: [
-              ImagePage(width:width,height:height,image:image,blackboardImage: 'assets/images/blackboard2.jpg',),
+              ImagePage(width:width,height:height,image:image,blackboardImage: 'assets/images/blackboard2.jpg',callback: callback,),
               ButtonTheme(
                 minWidth: 70,
                 height: 50,

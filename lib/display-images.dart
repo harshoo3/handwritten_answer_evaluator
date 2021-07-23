@@ -17,6 +17,7 @@ class _DisplayImagesState extends State<DisplayImages> {
       body: Column(
         children: [
           widget.teacherAnswer!=null?Container(
+            height: 400,
             margin: EdgeInsets.all(3),
             decoration: BoxDecoration(
                 image: DecorationImage(
@@ -25,6 +26,7 @@ class _DisplayImagesState extends State<DisplayImages> {
                 )),
           ):Text('null1'),
           widget.studentAnswer!=null?Container(
+            height: 300,
             margin: EdgeInsets.all(3),
             decoration: BoxDecoration(
                 image: DecorationImage(
